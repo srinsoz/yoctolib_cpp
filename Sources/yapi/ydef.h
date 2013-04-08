@@ -1,6 +1,6 @@
 /*********************************************************************
  *
- * $Id: ydef.h 10864 2013-04-03 16:20:26Z mvuilleu $
+ * $Id: ydef.h 10664 2013-03-25 11:12:04Z seb $
  *
  * Standard definitions common to all yoctopuce projects
  *
@@ -317,17 +317,8 @@ typedef enum {
 #define YOCTO_PUBVAL_SIZE            6 // Size of the data (can be non null terminated)
 #define YOCTO_PUBVAL_LEN            16 // Temporary storage, >= YOCTO_PUBVAL_SIZE+2
 
-// firmware description
-typedef union {
-    u8      asBytes[YOCTO_FIRMWARE_LEN];
-    struct {
-        char    buildVersion[YOCTO_FIRMWARE_LEN-2];
-        u16     yfsSignature;
-    } data;
-} yFirmwareSt;
-
 // device description
-typedef struct {
+typedef struct{
     u16     vendorid;
     u16     deviceid;
     u16     devrelease;
