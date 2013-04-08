@@ -1,2 +1,174 @@
- reloease note for CPP
-line2
+Misc:
+ - misc:[prod] work on display VB API  generation
+ - yoctometeowifi:fix access to api_def, device is now working with yfs on external flash
+ - ycparser:fix delphi generation
+ - yoctodisplay:work on adding flash support
+ - ycparser:fixing generation for new Display interface
+ - ycparser:various fixes to generators
+ - display:fix yocto_dev generation for display
+ - display:commit most recent firmware,
+ - yoctodisplay:fix doc generation for apifunction, add baseline option to alignment
+ - ycparser:added support for typed return values in ypifunctions; commit working display firmware
+ - pass a reference to the dictionary to generator callbacks
+ - yoctodisplay:fix generation of PHP functions with decl_var
+ - ycparser:allow recursive replacement in apifunctions
+ - ycparser:added support for INVOKE generic hook (for ObjectiveC)
+ - ycparser:add FileRecord as interface class
+ - generators:commit some fixes
+ - generators:generate Objective-C YFiles and YFileRecord class
+ - detail:remove useless code
+ - ycparser:fix API classes generation
+ - send reset to all devices on YAPI.FreeAPI (prevent USB transfer when no application is listening)
+ - yprog:now use packed structure for BYN file header
+ - bootloaders:prepare new flash bootloader
+ - bootloaders:prepare new flash bootloader
+ - bootloaders:new bootflasher jim-coded
+ - yprogrammer:new yprogrammer code with support for byn files V6
+ - networked:add support for upload of firmware to own flash
+ - yoctometeowifi:work on bootflasher
+ - yoctometeowifi:bootflasher starts to work
+ - yoctometeowifi:improve error report on upload
+ - Fix SIGBUS error on mutex that appened on ARM platform (and commit some debug function that are in if 0)
+ - yprog:disable debug code
+ - revert code that reset device on YAPI.Free
+ - minor compilations fixes
+ - fix potential malloc of size zero.
+ - disable YSAFE_MEMORY by default
+ - new thread function that correctly close all thread handes (prevent memory leak)
+ - disable YSAFE_MEMORY by default
+ - fix thread on unix platform
+ - fix double-freed mutex
+ - fix potential memory leak on some error
+ - microchiplib:fix compilation of devices
+ - display:fix compilation warnings
+ - yoctodisplay:final fix for cmdline api
+ - oslib:enhance memory test lib
+ - better check for string overflow
+ - \"cpp:commit new build 10025\"
+ - \"cpp:commit new build 10029\"
+ - \"cpp:commit new build 10050\"
+ - \"cpp:commit new build 10065\"
+ - display:command are not send to the device during commands recording
+ - yoctohub-eth:now compiling
+ - \"cpp:commit new build 10105\"
+ - better error message
+ - programmer:fix programming of YoctoHub-Eth
+ - display:commit new generated files
+ - \"cpp:commit new build 10127\"
+ - \"cpp:commit new build 10148\"
+ - retry StartDevice multiples time to fix enumeration when the OS is not fully ready to use the device
+ - fix yUSBClose without device ack error
+ - discard OS error on bootloader reboot
+ - add support for tcp POST multipart
+ - fix compilation warning
+ - \"cpp:commit new build 10250\"
+ - misc:[detail] fix compilation warning
+ - \"cpp:commit new build 10267\"
+ - \"cpp:commit new build 10288\"
+ - Allow to access USB devices in the first millisecond after big bang
+ - examples:commit testDisplay
+ - examples:improve precision of mandelbrot
+ - fix handling of binary data in post/multipart
+ - yoctoapi:more efficient URL encoding
+ - yoctoapi:generate files
+ - yoctoapi:fix sequence recording
+ - yoctoapi:remove warnings
+ - \"cpp:commit new build 10334\"
+ - commit reference files
+ - \"cpp:commit new build 10350\"
+ - \"cpp:commit new build 10364\"
+ - examples:commit project files
+ - misc:[detail] fix multipart header
+ - misc:[prod] c++ sequence example minor fix
+ - Fix connection restart in case of packet loss
+ - display:DisplayLayer now uses numeric _id
+ - display:fix compilation of interactive mandelbrot example
+ - usb:Implement double-handshake on close for device and API. NEED CAREFUL REVIEW and backward-compatiblity enhancements
+ - build:remove user specific data in xcode project
+ - usb:increase protocol number, implement backward-compatibility with devices not implementing FIN_WAIT
+ - \"cpp:commit new build 10479\"
+ - \"cpp:commit new build 10482\"
+ - \"cpp:commit new build 10512\"
+ - \"cpp:commit new build 10520\"
+ - display:rename newSequence/saveSequence
+ - display:commit newly generated doc files
+ - \"cpp:commit new build 10530\"
+ - fix reference to alignment constants, and add wait_async
+ - yoctolib:commit newly generated classes
+ - yoctolib:commit newly generated classes
+ - httpsrv:improve disconnect handling
+ - Make sure yapiFreeAPI close all pending requests; remove debug code from usbtcp
+ - misc:Generate files
+ - \"cpp:commit new build 10597\"
+ - yoctoapi:improve comment
+ - add yapiHTTPRequestAsyncEx function (for non null terminated string)
+ - generate new files
+ - yoctoapi:Fix binary handling in c#, use relative path for _download and add module.get_icon2d and module.download in all languages
+ - display:add stopSequence method to stop playing sequence
+ - fix some segfault that can happend on YAPI::FREE
+ - display:fixed a few bugs uncovered by the demo program
+ - display:fixed a few bugs uncovered by the demo program
+ - display:add word wrap function to the API, separate console bgcol from margins, add show gif to filemgr
+ - display:commit updated yoctolib reference
+ - COmmit newly generated files
+ - COmmit newly generated files
+ - minidisplay:add all examples to libs
+ - \"cpp:commit new build 10703\"
+ - yoctolib:commit newly generated files
+ - build:remove warning
+ - \"cpp:commit new build 10751\"
+ - \"cpp:commit new build 10763\"
+ - \"cpp:commit new build 10774\"
+ - \"cpp:commit new build 10798\"
+ - \"cpp:commit new build 10819\"
+ - \"cpp:commit new build 10828\"
+ - \"cpp:commit new build 10837\"
+ - \"cpp:commit new build 10853\"
+ - yfs:Add signature to YFS image and check in device to match proper YFS image; upload to alternate location
+ - \"cpp:commit new build 10862\"
+ - osx:Fix possible crash when disconnecting a black-listed device
+ - \"cpp:commit new build 10891\"
+ - yoctodisplay:work on tty
+ - yoctodisplay:improve tty support
+ - yoctometeowifi:autoflash now working, except settings restoration
+ - yoctoprod:preliminary RTC support
+ - change u32 to u31 to avoid warnings in csharp and for better handling in Java
+ - change u32 to u31 to avoid warnings in csharp and for better handling in Java
+ - yoctodisplay:now working with built-in files on flash, improved pixel drawing performance
+ - yoctodisplay:prepare support for animated sequences
+ - yoctodisplay:many fixes, startup sequence now a regular sequence
+ - ycparser:fixing generation for new Display interface
+ - display:document missing parameter
+ - display:add support for console background color
+ - yoctohub-eth:now compiling
+ - display:add copyLayerContent and swapLayerContent to YDisplay, add get_layerWidth,get_layerHeight,get_displayWidth and get_displayHeight to YDisplayLayer. use more explicit syntax in YC files (.. = acces to an attribut, -> = call an instance methode, :: call an class methode)
+ - yfiles:add upload function
+ - display:many fixes, add support for DrawBitmap, cleanup comments
+ - first test of new YC langage
+ - yoctodisplay:php generation now working for file upload
+ - files:rename delete into remove to avoid conflict in some languages
+ - files:fix call to json_get_XXX
+ - display:fix generation
+ - generators:commit some fixes
+ - generators:generate Objective-C YFiles and YFileRecord class
+ - misc:[prod] yocto-maxidisplay: doc
+ - misc:[prod] display.yc :minor fix
+ - misc:[prod] minor fix on api.yc
+ - yoctodisplay:fix power handling
+ - usb:#undef some more code when only one USB interface is used
+ - display:Fix rendering of circles of size zero
+ - display:enhanced detection of pulses on embedded anbuttons
+ - fix icon2d description
+ - yoctometeowifi:fix \"save settings\" on large devices; avoid saving current consumption to flash for nothing
+cpp:
+ - final cleanup of display API
+ - add support for new autoflash programming (used in networked devices)
+ - link Yocto-Display and Yocto-DisplayLayer to the cpp library
+ - implement new function for YDisplay and YDisplayLayer
+ - commit fixes to display interface
+ - commit fixes to display interface
+ - final cleanup of display API
+ - fix error code
+ - fix memory leak
+ - new generated files
+ - add files to makefile

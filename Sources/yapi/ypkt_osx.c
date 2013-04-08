@@ -1,6 +1,6 @@
 /*********************************************************************
  *
- * $Id: ypkt_osx.c 10117 2013-03-01 16:12:10Z seb $
+ * $Id: ypkt_osx.c 10877 2013-04-04 14:30:47Z mvuilleu $
  *
  * OS-specific USB packet layer, Mac OS X version
  *
@@ -102,10 +102,14 @@ static void hid_device_removal_callback(void *context, IOReturn result,    void 
         for(i =0 ; i< p->infos.nbinbterfaces ;i++){
             yInterfaceSt *iface = &p->ifaces[i];
             if(iface->devref == dev_ref){
-                yEnterCriticalSection(&iface->yyyCS);
+                if(iface->flags.yyySetupDone) {
+                    yEnterCriticalSection(&iface->yyyCS);
+                }
                 HALLOG("unplug of %s:%d detected\n",iface->serial,iface->ifaceno);
                 iface->devref=NULL;
-                yLeaveCriticalSection(&iface->yyyCS);
+                if(iface->flags.yyySetupDone) {
+                    yLeaveCriticalSection(&iface->yyyCS);
+                }
                 break;
             }
         }
@@ -400,12 +404,23 @@ int yyySetup(yInterfaceSt *iface,char *errmsg)
 
     yyyInitPktQueue(iface);
     yInitializeCriticalSection(&iface->yyyCS);
-
+    yEnterCriticalSection(&iface->yyyCS);
+    iface->flags.yyySetupDone = 1;
     if(iface->devref==NULL){
+        // device has disappeared in between, too bad
+        iface->flags.yyySetupDone = 0;
+        yLeaveCriticalSection(&iface->yyyCS);
+        yDeleteCriticalSection(&iface->yyyCS);
+        yyyFreePktQueue(iface);
         return YERR(YAPI_DEVICE_NOT_FOUND);
     }
+
     IOReturn ret = IOHIDDeviceOpen(iface->devref, kIOHIDOptionsTypeNone);
     if (ret != kIOReturnSuccess) {
+        iface->flags.yyySetupDone = 0;
+        yLeaveCriticalSection(&iface->yyyCS);
+        yDeleteCriticalSection(&iface->yyyCS);
+        yyyFreePktQueue(iface);
         YSPRINTF(str,32,"Unable to open device (0x%x)",ret);
         return YERRMSG(YAPI_IO_ERROR,str);
     }
@@ -421,6 +436,8 @@ int yyySetup(yInterfaceSt *iface,char *errmsg)
                                             USB_PKT_SIZE,               // number of bytes in the report (CFIndex)
                                             &Handle_IOHIDDeviceIOHIDReportCallback,   // the callback routine
                                             iface);                     // context passed to callback
+    yLeaveCriticalSection(&iface->yyyCS);
+
     return 0;
 }
 
@@ -484,7 +501,6 @@ int yyyWrite(yInterfaceSt *iface,USB_Packet *pkt,char *errmsg)
 
 void yyyPacketShutdown(yInterfaceSt  *iface)
 {
-    
     yEnterCriticalSection(&iface->yyyCS);
     if(iface->devref!=NULL){
         IOHIDDeviceRegisterInputReportCallback( iface->devref,              // IOHIDDeviceRef for the HID device
@@ -495,6 +511,7 @@ void yyyPacketShutdown(yInterfaceSt  *iface)
         IOHIDDeviceClose(iface->devref, kIOHIDOptionsTypeNone);
         iface->devref=NULL;
     }
+    iface->flags.yyySetupDone = 0;
     yLeaveCriticalSection(&iface->yyyCS);
     yDeleteCriticalSection(&iface->yyyCS);
     yyyFreePktQueue(iface);

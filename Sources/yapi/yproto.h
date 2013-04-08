@@ -1,6 +1,6 @@
 /*********************************************************************
  *
- * $Id: yproto.h 10582 2013-03-21 14:20:41Z mvuilleu $
+ * $Id: yproto.h 10877 2013-04-04 14:30:47Z mvuilleu $
  *
  * Definitions and prototype common to all supported OS
  *
@@ -240,7 +240,7 @@ int dbglogf(const char *fileid,int line,const char *fmt,...);
 #define YDEBUG_BREAK {}
 #endif
 
-#define YPANNIC                {dbglog("YPANNIC:%s:%d\n",__FILE__ , __LINE__);YDEBUG_BREAK}
+#define YPANNIC                 {dbglog("YPANIC:%s:%d\n",__FILE__ , __LINE__);YDEBUG_BREAK}
 #define YASSERT(x)              if(!(x)){dbglog("ASSERT FAILED:%s:%d\n",__FILE__ , __LINE__);YDEBUG_BREAK}
 #define YPROPERR(call)          {int tmpres=(call); if(YISERR(tmpres)) {return tmpres;}}
 #define YERR(code)              ySetErr(code,errmsg,NULL,__FILE_ID__,__LINE__)
@@ -364,6 +364,9 @@ typedef struct _yInterfaceSt {
     u16             pkt_version;
     char            serial[YOCTO_SERIAL_LEN*2];
 
+    struct {
+        int         yyySetupDone:1;
+    } flags;
     pktQueue        rx_ok;
     pktItem         *txqueue;
     pktItem         static_txqueue;
